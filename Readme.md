@@ -24,6 +24,7 @@ Linux: Highly portable and lightweight, running on everything from tiny embedded
 ## Information about Hardware
 
 | Command  | Primary Focus | Best Used For ... | 
-| top      | CPU & RAM     |Finding out which app is freezing or slowing down the computer. |
+|----------|---------------|-------------------|
+| top      | CPU & RAM     |Finding out which app is freezing or slowing down the  computer. |
 |free -h  | RAM (Memory)   | Checking if you have enough memory to run a new program. |
 | df -h  | Storage (Hard Drive) | Checking if your hard drive is full. |
