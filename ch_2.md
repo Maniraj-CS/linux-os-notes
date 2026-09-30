@@ -6,7 +6,7 @@
 
 ---
 
-### uname (Unix Name)
+### &bull; uname (Unix Name)
 
 It is an built-in utility used to print detailed information about your system's hardware architecture, hostname, and the Linux kernel.
 
@@ -38,7 +38,7 @@ GNU/Linux (Operating System) : The full official name of the operating system ca
 
 ---
 
-### uptime 
+### &bull; uptime 
 
 It is a quick diagnostic tool used to check how long your system has been running without a reboot
 
@@ -61,7 +61,7 @@ up 37 minutes
 
 ---
 
-### who 
+### &bull; who 
 
 It is a built-in utility used to show which users are currently logged into the system, along with their terminal names and login times
 
@@ -102,7 +102,7 @@ ec2-user
 
 ---
 
-### Whoami
+### &bull; Whoami
 
 It is a single-purpose utility used to print the username of the user currently logged into the active terminal session
 
@@ -114,13 +114,13 @@ ec2-user
 
 ---
 
-### Which
+### &bull; Which
 
 
 
 ---
 
-### id
+### &bull; id
 
 It is a built-in utility used to display the User ID (UID), Group ID (GID), and all group memberships for your current user account or a specified user.
 
@@ -152,7 +152,7 @@ One-more example using flag and user-name :
 
 ---
 
-### Shutdown 
+### &bull; Shutdown 
 It is used to safely powers off, halts, or reboots the operating system.
 
 Syntex :
@@ -183,7 +183,7 @@ sudo shutdown -c
 
 ---
 
-### reboot
+### &bull; reboot
 
 It is a system administration utility used to safely restart the operating system and hardware immediately
 
@@ -204,7 +204,7 @@ Prevents the terminal from broadcasting warning messages to other logged-in user
 ```
 ---
 
-### package manager
+### &bull; package manager
 A package manager is essentially an app store for our Linux server.
 
 The prominent Linux package managers and the specific distributions they belong to:
@@ -221,12 +221,12 @@ portage : Gentoo Linux
 
 ---
 
-### sudo (Superuser Do)
+### &bull; sudo (Superuser Do)
 It is a tool that allows a regular user to run a specific program or command with the temporary administrative security privileges of another user, usually the superuser or ``root``.
 
 ---
 
-### adduser 
+### &bull; adduser 
 
 It is a user-friendly, interactive utility used to add a new user account to a Linux system while automatically creating their home directory, prompting for a password, and setting up default configurations.
 
@@ -236,7 +236,7 @@ sudo adduser [username]
 ```
 ---
 
-### passwd
+### &bull; passwd
 
 It is a built-in Linux utility used to create, update, or lock user account passwords and manage password expiration rules.
 
@@ -287,13 +287,13 @@ sudo passwd -S [username]
 
 ---
 
-### su  (Switch User)
+### &bull; su  (Switch User)
 
 It is a built-in utility used to switch from your current user account to another user account during a terminal session without logging out of the server.
 
 Syntex :
 ```bash
-sudo su [options] [username]
+sudo su [options] username
 ```
 
 Example : 
@@ -304,14 +304,14 @@ sudo su devops-user
 
 ---
 
-### userdel (User Delete)
+### &bull; userdel (User Delete)
 
 It is a low-level utility used to remove a user account from the system. It cleans out the user's records from the core identity files like `` /etc/passwd ``,`` /etc/shadow ``, and `` /etc/group ``.
 
 Syntex :
 
 ```bash
-sudo userdel [options] [username]
+sudo userdel [options] username
 ```
 
 Example with options and flag :
@@ -333,7 +333,7 @@ sudo userdel -r -f devops-user
 
 ---
 
-### groupadd  (Create a Group)
+### &bull; groupadd  (Create a Group)
 
 The `` groupadd `` command creates a brand-new user group on your Linux system. Groups are used to bundle users together to give them shared permissions to specific files, folders, or services.
 
@@ -353,7 +353,7 @@ sudo groupadd devops-group
 
 ---
 
-### gpasswd  (Manage Group Members & Passwords)
+### &bull; gpasswd  (Manage Group Members & Passwords)
 
 The `` gpasswd `` command is used to administer groups. For DevOps engineers, it is the primary tool used to add or remove users from existing groups.
 
@@ -395,7 +395,7 @@ sudo gpasswd -M ec2-user,linux devops
 
 ---
 
-### groupdel (Delete a Group)
+### &bull; groupdel (Delete a Group)
 
 The `` groupdel `` command removes an existing group from the system.
 
@@ -416,7 +416,7 @@ It a fundamental security system that controls who can view, modify, or run file
 
 --- 
 
-### The Permissions Component Chart
+### &bull; The Permissions Component Chart
 
 | Permission  |	Character |	Numeric (Octal) Value |	Meaning for a File	Meaning for a Folder (Directory)  |
 |---------------|----------|---------------------|---------------------------------|
@@ -424,5 +424,173 @@ It a fundamental security system that controls who can view, modify, or run file
 | Write |	w |	2 |	Modify or edit the file.	Create, delete, or rename files inside it. |
 | Execute|	x |	1 |	Run the file as a program/script.	Enter the folder (cd) and access its files. |
 | None	| - |	0 |	No permissions granted.	No access granted. |
+
+---
+
+### &bull; 🗺️ Full Bash Code Binary Mapping Diagram
+
+```bash
+ File Type
+   │
+   ▼   [ OWNER (u) ]       [ GROUP (g) ]       [ OTHERS (o) ]
+ ┌───┐ ┌───┬───┬───┐     ┌───┬───┬───┐     ┌───┬───┬───┐
+ │ - │ │ r │ w │ x │     │ r │ - │ x │     │ r │ - │ - │  <-- Symbolic Code
+ └───┘ └───┴───┴───┘     └───┴───┴───┘     └───┴───┴───┘
+   │     │   │   │         │   │   │         │   │   │
+   │     ▼   ▼   ▼         ▼   ▼   ▼         ▼   ▼   ▼
+   │     4 + 2 + 1         4 + 0 + 1         4 + 0 + 0   <-- Mathematical Weights
+   │     └───┬───┘         └───┬───┘         └───┬───┘
+   │         ▼                 ▼                 ▼
+   │         7                 5                 4       <-- Octal Code (Absolute Mode)
+   │
+   └─► (-) Regular File  |  (d) Directory  |  (l) Symbolic Link
+```
+---
+
+### &bull; The Common Permission Combinations
+
+Master Permission & Binary Conversion Chart
+Below is the absolute truth table for how Linux maps binary inputs directly into system operations.
+
+
+| Octal Value |	Binary Bits |	Symbolic Code |	Technical Definition & Access Level |
+|-------------|-------------|-----------------|-----------------------------|
+| 0	| 000	| --- |	No Permissions: Completely locked down. No user in this tier can view, edit, or interact with the resource.|
+| 1	| 001	| --x |	Execute Only: Users can run binary files or scripts as programs, but they cannot open the file to inspect the raw code inside. |
+| 2	| 010	| -w- |	Write Only: Users can modify file contents or write logs, but they cannot read the existing file data (rarely used). |
+| 3	| 011	| -wx |	Write & Execute: Users can edit and execute a file, but cannot view it (commonly applied to secure system directories). |
+| 4	| 100	| r-- |	Read Only: Pure safety mode. Users can open and view data or configurations, but cannot make alterations or execute them. |
+| 5	| 101	| r-x |	Read & Execute: Standard for public executables and searchable folders. Users can browse directories (ls) and launch applications. |
+| 6	| 110	| rw- |	Read & Write: Standard for development assets and user documents. You can read and save modifications, but cannot execute it. |
+| 7	| 111	| rwx |	Full Access: Absolute control. The target tier can read, write, modify, delete, and execute without any kernel restrictions. |
+
+---
+
+### &bull; chmod (Change Mode)
+
+The chmod (Change Mode) command in Linux is a system utility used to modify the read, write, and execute permissions of files and directories.
+
+Syntex : 
+
+```bash
+chmod [OPTIONS] MODE FILE
+```
+
+### The Two Ways to Use `` chmod ``
+
+1) The Numeric (Octal) Method
+
+```bash
+sudo chmod 777 hello.txt  # giving read,write and execute for all user, group, and others
+```
+
+2) The Symbolic Method
+
+```bash
+# You use letters and symbols to add or remove specific permissions without rewriting the whole code.
+
+# • Target letters: u (user/owner), g (group), o (others), a (all).
+# • Action operators: + (add permission), - (remove permission), = (set exact permission).
+
+sudo chmod u+x hello.txt # Add execute power for the file owner.
+
+sudo chmod g-w hello.txt # 	Remove write power from the group.
+
+sudo chmod o=r hello.txt # 	Set others to read-only strictly.
+
+sudo chmod ug+rw hello.txt # Add read and write for both user and group.
+
+sudo chmod ugo=rwx hello.txt # Add read, write and execute for all user, group and others
+```
+
+Some usefull Options and flag :
+
+```bash
+
+# -R or --recursive
+
+# Applies the permission change to a folder and every single file and subfolder inside it.
+
+sudo chmod -R 777 /var/www/html
+
+# -v or --verbose
+
+# Prints a confirmation message on the screen for every file it updates.
+
+sudo chmod -v 755 /var/www/html
+
+```
+
+---
+
+### &bull; umask (User File Creation Mask)
+
+It is a built-in shell command that acts as a permission filter. It dictates the default access rights assigned to files and folders the exact moment they are created.
+
+Syntex and Example :
+
+```bash
+[ec2-user@ip-172-31-38-144 cloud]$ umask
+0022  # It means that newly created files get 644 permissions and newly created directories get 755 permissions
+```
+---
+
+### &bull; chown (Change Owner)
+ 
+It is the primary Linux command used to reassign the user owner and/or group owner of a file or directory to a different account .
+
+
+Syntex :
+
+```bash
+chown [options] new_owner[:new_group] target_file
+```
+
+
+|Command Example |	What it Does |
+|----------------|---------------|
+| chown alice report.txt |	Changes only the user owner to alice. |
+| chown alice:developers report.txt | 	Changes the user owner to alice and the group to developers. |
+| chown :developers report.txt	 | Changes only the group owner to developers (leaving the user owner the same). |
+| chown alice: | 	Changes user owner to alice and updates the group to alice's default login group. |
+
+
+Key Flags and Options
+
+```text
+• -R (Recursive): Applies the ownership change to a directory and everything inside it (all subfolders and files).
+	• Example: sudo chown -R alice:developers /var/www/html
+
+
+• -v (Verbose): Prints a message for every file it successfully changes, letting you track progress in real-time.
+
+
+• --reference=FILE: Copies the user and group ownership from a reference file instead of typing them out manually.
+	• Example: chown --reference=template.txt newfile.txt
+```
+
+---
+
+### &bull; chgrp (Change Group)
+
+It is a dedicated Linux command used specifically to change the group ownership of a file or directory without altering the user owner.
+
+Syntex :
+
+```bash
+chgrp [options] new_group target_file
+```
+
+Example :
+
+```bash 
+chgrp developers report.txt
+```
+---
+
+## Compression Command
+
+---
+
 
 
