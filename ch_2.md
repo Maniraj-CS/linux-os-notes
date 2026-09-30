@@ -34,7 +34,7 @@ x86_64 (Hardware Platform) : Confirms one more time that the physical server pla
 GNU/Linux (Operating System) : The full official name of the operating system category.
 ```
 
-> There are more flag such as : ``-r``,``-n``,``-v``,``-m``,``-p``,``-i``,``-o`` . This flag use to show spicific part from ``-a`` flag result. such as for ``-o`` means GNU/Linux (Operating System) 
+> There are more flag such as : ``-r``,``-n``,``-v``,``-m``,``-p``,``-i``,``-o`` . This flag use to show specific part from ``-a`` flag result. such as for ``-o`` means GNU/Linux (Operating System) 
 
 ---
 
@@ -223,4 +223,191 @@ portage : Gentoo Linux
 
 ### sudo (Superuser Do)
 It is a tool that allows a regular user to run a specific program or command with the temporary administrative security privileges of another user, usually the superuser or ``root``.
+
+---
+
+### adduser 
+
+It is a user-friendly, interactive utility used to add a new user account to a Linux system while automatically creating their home directory, prompting for a password, and setting up default configurations.
+
+Syntex :
+```bash
+sudo adduser [username]
+```
+---
+
+### passwd
+
+It is a built-in Linux utility used to create, update, or lock user account passwords and manage password expiration rules.
+
+Syntex :
+```bash
+sudo passwd [options] [username]
+```
+
+Some examples using options and flag :
+
+```bash
+
+# 1. Change your own password
+passwd
+
+
+
+# 2. Change another user's password (Administrator)
+
+# If you need to reset a password for a coworker or a service account you must run it with administrator power. Root users do not need to know or type the user's old password:
+
+sudo passwd [username]
+
+
+
+# 3. Lock a user account
+
+# If a user leaves the team or a service needs to be temporarily disabled for security, you can lock their password so they cannot log in:
+
+sudo passwd -l [username]
+
+
+
+# 4. Unlock a locked account
+
+# To restore access and let the user log back in with their existing credentials, use the unlock flag:
+
+sudo passwd -u [username]
+
+
+# 5. Check password status
+
+# To see a quick summary of an account's health—such as whether the password is locked, has an expiration date, or what encryption algorithm is used—run:
+
+sudo passwd -S [username]
+
+```
+
+---
+
+### su  (Switch User)
+
+It is a built-in utility used to switch from your current user account to another user account during a terminal session without logging out of the server.
+
+Syntex :
+```bash
+sudo su [options] [username]
+```
+
+Example : 
+
+```bash
+sudo su devops-user
+```
+
+---
+
+### userdel (User Delete)
+
+It is a low-level utility used to remove a user account from the system. It cleans out the user's records from the core identity files like `` /etc/passwd ``,`` /etc/shadow ``, and `` /etc/group ``.
+
+Syntex :
+
+```bash
+sudo userdel [options] [username]
+```
+
+Example with options and flag :
+
+```bash
+# 1. Delete a user completely (Highly Recommended for DevOps)
+
+# If an engineer leaves the company or a temporary testing account is no longer needed, you usually want to wipe out their files to save disk space. Use the -r (remove) flag:
+
+sudo userdel -r devops-user
+
+# 2. Force-delete a user who is currently logged in
+
+#If a background application or an active SSH session is still running under that username, the standard userdel command will block you and print an error saying the user is currently logged in. To force the deletion anyway, add the -f flag:
+
+sudo userdel -r -f devops-user
+
+```
+
+---
+
+### groupadd  (Create a Group)
+
+The `` groupadd `` command creates a brand-new user group on your Linux system. Groups are used to bundle users together to give them shared permissions to specific files, folders, or services.
+
+Syntex :
+
+```bash
+sudo groupadd [OPTIONS] group_name
+```
+
+> To check the group is created or not , use this command `` cat /etc/group `` . So this the path where all group stored.
+
+Example :
+
+```bash
+sudo groupadd devops-group
+```
+
+---
+
+### gpasswd  (Manage Group Members & Passwords)
+
+The `` gpasswd `` command is used to administer groups. For DevOps engineers, it is the primary tool used to add or remove users from existing groups.
+
+Syntex :
+
+```bash
+sudo gpasswd [OPTION] username group_name
+```
+
+Example wiht Options and flag :
+
+```bash
+
+# 1. The -a Flag (Add a User)
+
+# The -a (add) flag appends a single user to an existing group without disturbing any current members.
+
+# Example: To add the user linux to the devops group
+
+sudo gpasswd -a linux devops
+
+# Result: The linux user is now a member of devops and inherits any permissions that group holds.
+
+
+
+# 2. The -M Flag (Define Group Members / Mass Reset)
+
+# The -M (members) flag defines the complete, absolute list of users belonging to the group.
+
+# ⚠️ CRITICAL WARNING: This flag overwrites the existing group membership list. Anyone who was in the group before but is not included in your new command will be instantly removed.
+
+# Example: To make sure only ec2-user and linux belong to the devops group
+
+sudo gpasswd -M ec2-user,linux devops
+
+# Result: ec2-user and linux are now the only members. If a user named john was in devops before, he is kicked out automatically.
+
+```
+
+---
+
+### groupdel (Delete a Group)
+
+The `` groupdel `` command removes an existing group from the system.
+
+Syntex :
+
+```bash
+sudo groupdel group_name
+```
+
+> ⚠️ Essential Rule for groupdel :
+> You cannot delete a primary group of an existing user. If a user account still uses that group as their main group (the default group assigned when they were created), groupdel will fail with an error. You must delete the user first, or change their primary group using usermod -g before deleting the group.
+
+---
+
 
