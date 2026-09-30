@@ -410,4 +410,19 @@ sudo groupdel group_name
 
 ---
 
+## File and Folder Permession
+
+It a fundamental security system that controls who can view, modify, or run files and directories on a system .
+
+--- 
+
+### The Permissions Component Chart
+
+| Permission  |	Character |	Numeric (Octal) Value |	Meaning for a File	Meaning for a Folder (Directory)  |
+|---------------|----------|---------------------|---------------------------------|
+| Read |	r |	4 |	View the file contents.	List the files inside the folder (ls). |
+| Write |	w |	2 |	Modify or edit the file.	Create, delete, or rename files inside it. |
+| Execute|	x |	1 |	Run the file as a program/script.	Enter the folder (cd) and access its files. |
+| None	| - |	0 |	No permissions granted.	No access granted. |
+
 
