@@ -10,7 +10,7 @@
 
 It is an built-in utility used to print detailed information about your system's hardware architecture, hostname, and the Linux kernel.
 
-Syntex : 
+Syntax : 
 ```bash
 uname [options..]
 ```
@@ -42,7 +42,7 @@ GNU/Linux (Operating System) : The full official name of the operating system ca
 
 It is a quick diagnostic tool used to check how long your system has been running without a reboot
 
-Syntex : 
+Syntax : 
 ```bash 
 uptime [options..]
 ```
@@ -65,7 +65,7 @@ up 37 minutes
 
 It is a built-in utility used to show which users are currently logged into the system, along with their terminal names and login times
 
-Syntex:
+Syntax:
 
 ```bash
 who [options..]
@@ -124,7 +124,7 @@ ec2-user
 
 It is a built-in utility used to display the User ID (UID), Group ID (GID), and all group memberships for your current user account or a specified user.
 
-Syntex :
+Syntax :
 ```bash
 id [OPTION]... [USERNAME]
 ```
@@ -155,7 +155,7 @@ One-more example using flag and user-name :
 ### &bull; Shutdown 
 It is used to safely powers off, halts, or reboots the operating system.
 
-Syntex :
+Syntax :
 ```bash
 sudo shutdown [OPTIONS] [TIME] [MESSAGE]
 ```
@@ -187,7 +187,7 @@ sudo shutdown -c
 
 It is a system administration utility used to safely restart the operating system and hardware immediately
 
-Syntex :
+Syntax :
 ```bash
 sudo reboot [Options]
 ```
@@ -230,7 +230,7 @@ It is a tool that allows a regular user to run a specific program or command wit
 
 It is a user-friendly, interactive utility used to add a new user account to a Linux system while automatically creating their home directory, prompting for a password, and setting up default configurations.
 
-Syntex :
+Syntax :
 ```bash
 sudo adduser [username]
 ```
@@ -240,7 +240,7 @@ sudo adduser [username]
 
 It is a built-in Linux utility used to create, update, or lock user account passwords and manage password expiration rules.
 
-Syntex :
+Syntax :
 ```bash
 sudo passwd [options] [username]
 ```
@@ -291,7 +291,7 @@ sudo passwd -S [username]
 
 It is a built-in utility used to switch from your current user account to another user account during a terminal session without logging out of the server.
 
-Syntex :
+Syntax :
 ```bash
 sudo su [options] username
 ```
@@ -308,7 +308,7 @@ sudo su devops-user
 
 It is a low-level utility used to remove a user account from the system. It cleans out the user's records from the core identity files like `` /etc/passwd ``,`` /etc/shadow ``, and `` /etc/group ``.
 
-Syntex :
+Syntax :
 
 ```bash
 sudo userdel [options] username
@@ -337,7 +337,7 @@ sudo userdel -r -f devops-user
 
 The `` groupadd `` command creates a brand-new user group on your Linux system. Groups are used to bundle users together to give them shared permissions to specific files, folders, or services.
 
-Syntex :
+Syntax :
 
 ```bash
 sudo groupadd [OPTIONS] group_name
@@ -357,7 +357,7 @@ sudo groupadd devops-group
 
 The `` gpasswd `` command is used to administer groups. For DevOps engineers, it is the primary tool used to add or remove users from existing groups.
 
-Syntex :
+Syntax :
 
 ```bash
 sudo gpasswd [OPTION] username group_name
@@ -399,7 +399,7 @@ sudo gpasswd -M ec2-user,linux devops
 
 The `` groupdel `` command removes an existing group from the system.
 
-Syntex :
+Syntax :
 
 ```bash
 sudo groupdel group_name
@@ -470,7 +470,7 @@ Below is the absolute truth table for how Linux maps binary inputs directly into
 
 The chmod (Change Mode) command in Linux is a system utility used to modify the read, write, and execute permissions of files and directories.
 
-Syntex : 
+Syntax : 
 
 ```bash
 chmod [OPTIONS] MODE FILE
@@ -527,7 +527,7 @@ sudo chmod -v 755 /var/www/html
 
 It is a built-in shell command that acts as a permission filter. It dictates the default access rights assigned to files and folders the exact moment they are created.
 
-Syntex and Example :
+Syntax and Example :
 
 ```bash
 [ec2-user@ip-172-31-38-144 cloud]$ umask
@@ -540,7 +540,7 @@ Syntex and Example :
 It is the primary Linux command used to reassign the user owner and/or group owner of a file or directory to a different account .
 
 
-Syntex :
+Syntax :
 
 ```bash
 chown [options] new_owner[:new_group] target_file
@@ -575,7 +575,7 @@ Key Flags and Options
 
 It is a dedicated Linux command used specifically to change the group ownership of a file or directory without altering the user owner.
 
-Syntex :
+Syntax :
 
 ```bash
 chgrp [options] new_group target_file
@@ -592,5 +592,174 @@ chgrp developers report.txt
 
 ---
 
+### &bull; zip and Unzip
 
+It is a utilities used to compress multiple files and folders into a single .zip archive and extract files back out of that archive.
+
+Syntax :
+
+```bash
+zip [OPTIONS] archive_name.zip file1 file2 folder/
+unzip archive_name.zip
+```
+
+Example with Options and flag :
+
+```bash
+
+# Compress a single file :
+zip archive.zip myfile.txt
+
+
+# Compress an entire folder (Recursive) :
+zip -r myproject.zip project_folder/
+
+
+# Create a password-protected zip file :
+zip -e secure.zip sensitive_data.txt
+
+
+# Extract files into your current folder :
+unzip myproject.zip
+
+# Extract files into a specific target folder :
+# Use the -d flag to send the extracted contents to another path:
+unzip myproject.zip -d /var/www/html/
+
+# List the contents of a zip file without extracting it:
+unzip -l myproject.zip
+```
+---
+
+### &bull; tar
+
+The standard utility used by DevOps engineers to bundle multiple files and directories into a single archive file (often called a "tarball"). 
+
+
+Syntax :
+```bash
+tar [OPTIONS] archive_name.tar target_files_or_folders
+```
+
+* The 4 Master Flags You Need to Remember
+
+You usually combine flags together to get the desired result. Here are the four primary action flags:
+
+```text
+• -c : Create a new archive.
+• -x : Extract an existing archive.
+• -v : Verbose mode (shows the files on screen while archiving).
+• -f : File name specification (tells tar the next text string is the archive name). Note: This flag must always come last in the options block.
+```
+
+Examples :
+
+```bash
+
+# 1. Create a Standard Archive (No Compression)
+# Groups files into a .tar container. It does not save disk space, but makes moving data simple.
+tar -cvf backup.tar /var/www/html/
+
+
+# 2. Create a Gzipped Archive (High Compression - Recommended)
+# Adds the -z flag to run the files through the gzip compression tool. This creates a much smaller .tar.gz or .tgz file.
+tar -czvf backup.tar.gz /var/www/html/
+
+
+# 3. Extract a compressed .tar.gz file
+# Swaps out the create flag (-c) for the extract flag (-x). It uncompresses and unpacks everything into your current directory.
+tar -xzvf backup.tar.gz
+
+
+# 4. Extract to a Specific Target Directory
+# Use the -C flag followed by a target path to extract the files somewhere else instead of your active folder:
+sudo tar -xzvf backup.tar.gz -C /opt/myapp/
+
+# 5. List Contents Without Extracting
+# If you want to view what files are inside the archive without unpacking them, use the -t flag:
+tar -tzvf backup.tar.gz
+```
+
+---
+
+## File Transfer Command
+
+---
+
+### &bull; scp (Secure Copy Protocol)
+
+It is a command-line utility used to securely copy files and directories between different computers over a network. It runs on top of `` SSH (Secure Shell) ``, meaning all data transfers are completely encrypted.
+
+Syntax :
+
+```bash
+scp [OPTIONS] [SOURCE] [DESTINATION]
+```
+
+Example : 
+```bash
+
+# Upload using an SSH Identity Key (.pem file)
+scp -i "linux-for-devops.pem" app.tar.gz ec2-user@54.252.73.197:/home/ec2-user/
+
+
+# Copy a remote file to your local computer (Download)
+scp -i "linux-for-devops.pem" ec2-user@54.252.73.197:/home/ec2-user/ .
+
+
+#Copy an entire folder (Recursive)
+scp -i "linux-for-devops.pem" -r ./my-project ec2-user@54.252.73.197:/home/ec2-user/
+
+```
+
+---
+
+### &bull; rsync (Remote Sync)
+
+It is smarter, it checks both sides and only transfers the specific blocks of data that changed, making it significantly faster for large folders or repeated backups.
+
+
+Syntax :
+
+```bash
+rsync [OPTIONS] SOURCE DESTINATION
+```
+
+* Key Flags You Need to Know
+DevOps engineers almost always combine flags into the popular -avz combination:
+
+```text
+• -a (Archive mode): Preserves file permissions, timestamps, symbolic links, owner/group info, and runs recursively. (Equivalent to -rlptgoD).
+• -v (Verbose): Prints details of what files are being transferred on the screen.
+• -z (Compress): Compresses file data during transmission over the network to save bandwidth.
+• -P (Progress + Partial): Shows a progress bar during transfer and allows resuming interrupted downloads.
+```
+
+Example with Some useCash :
+
+```bash
+
+# 1. Sync files locally (Backup folder)
+#To back up your documents folder to an external drive or backup directory:
+rsync -av /home/ec2-user/docs /mnt/backup/docs
+
+
+# 2. Sync files to a remote server via SSH (Upload)
+#To upload a project folder to an AWS EC2 instance using a private .pem key:
+rsync -avz -e "ssh -i linux-for-devops.pem" ./my-project/ ec2-user@54.252.73.197:/home/ec2-user/my-project/
+# (Trailing slashes / matter in rsync: ./my-project/ copies the contents inside the folder, while omitting the slash copies the folder itself).
+
+
+# 3. Mirror folders and delete extra files (--delete)
+# If a file was deleted from your source folder, you might want it deleted from the destination backup too. Adding --delete makes the destination an exact mirror of the source:
+rsync -av --delete /source_folder/ /destination_backup/
+# Warning: Use --delete with caution so you don't accidentally wipe out valuable data on your destination.
+
+
+
+# 4. Dry Run (--dry-run or -n)
+# If you want to test an rsync command to see what files would be copied without actually moving any data:
+rsync -avn --delete /source/ /destination/
+
+```
 
