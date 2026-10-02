@@ -86,9 +86,13 @@ Breakdown of Flags in `` netstat -tulnp `` :
 
 ```text
 • -t (TCP): Shows only TCP network connections.
+
 • -u (UDP): Shows only UDP network connections.
+
 • -l (Listening): Shows only ports that are actively waiting for incoming connections (like a web server or database).
+
 • -n (Numeric): Shows numerical IP addresses and port numbers instead of resolving hostnames or service names.
+
 • -p (Process/Program): Displays the Process ID (PID) and the name of the program that owns the network port (requires sudo).
 ```
 
@@ -140,10 +144,15 @@ eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 __Here is what the core lines mean:__
 
 • `` eth0 ``: The name of the network interface card (Ethernet 0).
+
 • `` UP,BROADCAST,RUNNING ``: Shows that the interface is active and ready to send data.
+
 • `` inet 172.31.38.144 ``: The IPv4 address assigned to this interface.
+
 • `` netmask 255.255.0.0 ``: The subnet mask defining your local network range.
+
 • `` ether 06:11:22... ``: The physical MAC address of the network card.
+
 • `` RX / TX packets ``: Shows the count of received (RX) and transmitted (TX) data packets.
 
 
@@ -182,8 +191,11 @@ hop count ──► 1  192.168.1.1 (192.168.1.1)  2.124 ms  1.854 ms  1.720 ms
 ```
 
 • `` 1  ``**(Hop Number)**: This is the first device your data hit (usually your local Wi-Fi router).
+
 • `` 192.168.1.1 (192.168.1.1) `` **(Router Identity)**: The hostname and the IP address of that router.
+
 • `` 2.124 ms  1.854 ms  1.720 ms `` **(Three Response Times)**: By default, traceroute sends 3 separate test packets to each hop. These numbers show how many milliseconds each packet took to go there and back.
+
 •``  * * *  ``**(The Mystery Hop)**: If you see asterisks, it means that specific router did not reply. This is usually because a firewall at that hop is configured to ignore trace requests for security reasons. It doesn't always mean the network is broken.
 
 
@@ -199,5 +211,7 @@ hop count ──► 1?: [LOCALHOST]                      pmtu 1500
 ```
 
 • `` 1?: [LOCALHOST] pmtu 1500 ``: This first line defines your own computer's settings. It shows that your network card is set to a Maximum Transmission Unit **(MTU)** of `` 1500 `` bytes (the maximum size a single data packet can be).
+
 • `` 1:  192.168.1.1  0.854ms ``: The first hop router IP address and the round-trip latency time. Notice tracepath only shows one time metric instead of three.
+
 • `` no reply ``: This is tracepath's version of `` * * * ``. It means the router timed out or ignored the packet.
