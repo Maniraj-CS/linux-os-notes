@@ -108,8 +108,11 @@ tcp        0      0 0.0.0.0:80        0.0.0.0:*         LISTEN      1234/nginx
 Breakdown :
 
 • `` Proto ``: The protocol used (TCP or UDP).
+
 • `` Local Address ``: The IP address and port number the server is listening on (`` 0.0.0.0:80 `` means it listens on port 80 across all network interfaces).
+
 •`` State ``: The connection state, where `` LISTEN `` means the service is ready and waiting for clients to connect.
+
 • `` PID/Program name ``: The application ID and name (e.g., `` 1234/nginx ``), telling you exactly which process is using that port.
 
 
@@ -126,6 +129,7 @@ ifconfig [interface] [options]
 ```
 
 • Running `` ifconfig `` by itself will display all active network interfaces currently connected to your system.
+
 • Running `` ifconfig eth0 `` will show details for just that specific interface `` (eth0).
 
 
@@ -210,8 +214,182 @@ hop count ──► 1?: [LOCALHOST]                      pmtu 1500
               3:  no reply
 ```
 
-• `` 1?: [LOCALHOST] pmtu 1500 ``: This first line defines your own computer's settings. It shows that your network card is set to a Maximum Transmission Unit **(MTU)** of `` 1500 `` bytes (the maximum size a single data packet can be).
+• `` 1?: [LOCALHOST] pmtu 1500 `` : This first line defines your own computer's settings. It shows that your network card is set to a Maximum Transmission Unit **(MTU)** of `` 1500 `` bytes (the maximum size a single data packet can be).
 
-• `` 1:  192.168.1.1  0.854ms ``: The first hop router IP address and the round-trip latency time. Notice tracepath only shows one time metric instead of three.
+• `` 1:  192.168.1.1  0.854ms `` : The first hop router IP address and the round-trip latency time. Notice tracepath only shows one time metric instead of three.
 
-• `` no reply ``: This is tracepath's version of `` * * * ``. It means the router timed out or ignored the packet.
+• `` no reply `` : This is tracepath's version of `` * * * `` . It means the router timed out or ignored the packet.
+
+---
+
+## mtr (My Traceroute)
+
+It is an advanced network diagnostic utility that combines the real-time tracking of `` traceroute `` with the continuous performance testing of `` ping  `` into a single live-updating interface.
+
+Syntax :
+
+```bash
+mtr [OPTIONS] HOSTNAME_OR_IP
+```
+
+---
+
+## nslookup (Name Server Lookup)
+
+It is a classic network administration tool used to query **DNS (Domain Name System)** servers. It helps you discover the IP address associated with a domain name, or perform a reverse lookup to find the domain name associated with an IP address.
+
+Syntax :
+
+```bash
+nslookup [DOMAIN_NAME]
+```
+
+**Example Output and Breakdown**
+
+
+If you run nslookup google.com in your terminal, the output looks like this:
+
+```text
+Server:		172.31.0.2
+Address:	172.31.0.2#53
+
+Non-authoritative answer:
+Name:	google.com
+Address: 142.250.71.46
+```
+
+__Here is what the information means line by line:__
+
+• `` Server & Address `` **(Top Section)** : This is the IP address of the local DNS server your computer asked to find the answer (e.g., `` 172.31.0.2 `` ). The `` #53 `` indicates it connected over standard network port 53, which is reserved for DNS traffic.
+
+• `` Non-authoritative answer `` : This means the DNS server you asked doesn't actually own the original domain records for Google. Instead, it pulled a copy of the answer out of its temporary memory cache to give it to you quickly.
+
+• `` Name & Address `` **(Bottom Section)** : The final resolved answer. It tells you that the website domain google.com points directly to the physical server IP address `` 142.250.71.46 `` .
+
+---
+
+## telnet
+
+It is a legacy network utility used to establish a raw, text-based TCP connection to a specific IP address and port on a remote server.
+
+While it was originally designed for remote administrative login, it transmits all data and passwords in plain text. Because this is a major security risk, modern systems use ssh for remote logins instead. However, DevOps engineers still use telnet as a quick troubleshooting tool to test whether a specific network port is open and accepting traffic.
+
+Syntax :
+
+```bash 
+telnet [host] [port]
+```
+
+**Common Examples & Use Cases**
+
+```bash
+# 1. Test if a specific TCP port is open
+
+# If your application cannot connect to a database on port 5432 or a web service on port 80, you can run telnet followed by the host and port number:
+telnet 172.31.38.144 80
+
+# • Success Output: If the screen clears or shows a connection message like Connected to 172.31.38.144, the port is open and your network path is clear.
+
+# • Failure Output: If it hangs on Trying 172.31.38.144... and eventually says Connection timed out or Connection refused, a firewall or security group is blocking the traffic, or the service is offline.
+
+
+
+# 2. Interact with a service manually (HTTP Example)
+
+# You can type raw HTTP commands directly into an active telnet session to talk to a web server:
+telnet example.com 80
+
+# Once connected, type GET / HTTP/1.1, press Enter twice, and the server will return the raw HTML headers and page code. Press Ctrl + ] and then type quit to exit the telnet prompt.
+```
+
+---
+
+## hostname 
+
+It is a core utility used to display or change the system's network name. The system uses this name to identify itself to other computers on the local network or over the internet.
+
+Syntax :
+
+```bash
+hostname [OPTIONS] [NEW_HOSTNAME]
+```
+
+**Common Examples & Use Cases**
+
+```bash
+# 1. Display the current hostname
+hostname
+
+# 2. Get the Fully Qualified Domain Name (FQDN)
+hostname -f
+
+# 3. Display the machine's local IP address
+hostname -I #here we can use -i samall i aslo
+
+# 4. Change the hostname temporarily (requires sudo)
+sudo hostname new-server-name
+```
+
+> How to Change the Hostname Permanently
+
+```bash
+sudo hostnamectl set-hostname my-production-webserver
+```
+
+---
+
+## ip 
+
+---
+
+## iwconfig
+
+---
+
+## ss
+
+---
+
+## dig
+
+---
+
+## arp
+
+---
+
+## nc (netcat)
+
+---
+
+## whois
+
+---
+
+## iplugstatus
+
+---
+
+## curl vs wget
+
+---
+
+## route
+
+---
+
+## nmap
+
+---
+
+## wget
+
+---
+
+## watch
+
+---
+
+## iptables
+
+---
