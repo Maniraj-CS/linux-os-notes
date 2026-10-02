@@ -725,7 +725,8 @@ Syntax :
 rsync [OPTIONS] SOURCE DESTINATION
 ```
 
-* Key Flags You Need to Know
+* Key Flags You Need to Know 
+
 DevOps engineers almost always combine flags into the popular -avz combination:
 
 ```text
