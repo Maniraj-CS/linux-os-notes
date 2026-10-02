@@ -641,7 +641,7 @@ Syntax :
 tar [OPTIONS] archive_name.tar target_files_or_folders
 ```
 
-* The 4 Master Flags You Need to Remember
+The 4 Master Flags You Need to Remember:
 
 You usually combine flags together to get the desired result. Here are the four primary action flags:
 
@@ -725,7 +725,7 @@ Syntax :
 rsync [OPTIONS] SOURCE DESTINATION
 ```
 
-* Key Flags You Need to Know 
+Key Flags You Need to Know:
 
 DevOps engineers almost always combine flags into the popular -avz combination:
 
