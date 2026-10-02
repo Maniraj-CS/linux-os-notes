@@ -1,8 +1,7 @@
 # Networking Command
 
----
 
-## * ping (Packet InterNetwork Groper)
+##  ping (Packet InterNetwork Groper)
 
 The ping (Packet InterNetwork Groper)  command is the fundamental network diagnostics tool used to check if a host (like a server, website, or router) is online and reachable over the network.
 
@@ -49,12 +48,12 @@ ping -c 5 google.com
 
 
 
-: '
-2. Change the time interval between packets (-i)
-By default, ping waits 1 second between attempts. You can speed it up or slow it down.
-• Ping every 5 seconds: ping -i 5 google.com
-• Fast check (every 0.2 seconds - requires sudo): sudo ping -i 0.2 google.com
-'
+
+# 2. Change the time interval between packets (-i)
+# By default, ping waits 1 second between attempts. You can speed it up or slow it down.
+# • Ping every 5 seconds: ping -i 5 google.com
+# • Fast check (every 0.2 seconds - requires sudo): sudo ping -i 0.2 google.com
+
 
 
 # 3. Test IPv6 addresses exclusively (-6)
