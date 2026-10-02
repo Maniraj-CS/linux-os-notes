@@ -1,7 +1,5 @@
 # User and File Management System
 
----
-
 ## System level command
 
 ---
