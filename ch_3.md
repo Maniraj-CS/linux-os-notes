@@ -340,13 +340,58 @@ sudo hostnamectl set-hostname my-production-webserver
 
 ## ip 
 
+It is a powerful command-line utility used to display and configure network interfaces, IP addresses, routing tables, and neighbor (ARP) tables.
+
+
+Syntax :
+
+```bash
+ip [OPTIONS] OBJECT { COMMAND | help }
+```
+
+Some Common `` ip `` command :
+
+``` bash
+
+# Show all IP addresses:
+ip address show
+
+
+# Show addresses in a clean, brief summary:
+ip -br a
+
+
+# Show only IPv4 addresses:
+bash ip -4 a
+
+
+# Assign an IP address to an interface:
+bash sudo ip addr add 192.168.1.50/24 dev eth0
+
+
+# Remove an IP address from an interface:
+bash sudo ip addr del 192.168.1.50/24 dev eth0
+
+```
+
 ---
 
 ## iwconfig
 
+It is used to view and configure wireless network interface parameters (such as ESSID, frequency, transmit power, and encryption).
+
+Syntax :
+
+```bash
+iwconfig [INTERFACE] [PARAMETERS]
+```
+
+> Running iwconfig with no arguments lists all wireless network interfaces on the system.
+
 ---
 
 ## ss
+
 
 ---
 
