@@ -519,10 +519,10 @@ Address                  HWtype   HWaddress           Flags Mask            Ifac
 • `` Iface `` : The local network interface card (like `` eth0 `` ) used to communicate with that device.
 
 
-**Common DevOps Use Cases & Options**
+### Common DevOps Use Cases & Options
 
 
-### 1. Show all entries numerically (-n)
+**1. Show all entries numerically (-n)**
 
 By default, `` arp `` tries to find the computer names for those IPs, which can cause delays. To force it to display clean numerical IP addresses instantly:
 
@@ -530,7 +530,7 @@ By default, `` arp `` tries to find the computer names for those IPs, which can 
 arp -n
 ```
 
-### 2. Delete a stale entry (-d) (Requires sudo)
+**2. Delete a stale entry (-d) (Requires sudo)**
 
 If a server on your local network changed its network card and has a new MAC address, its old entry in your cache can cause connection failures. You can manually remove the stale IP mapping:
 
@@ -539,7 +539,7 @@ sudo arp -d 172.31.0.1
 ```
 
 
-### 3. Add a permanent static mapping (-s) (Requires sudo)
+**3. Add a permanent static mapping (-s) (Requires sudo)**
 
 To prevent network tampering or hacking vectors like ARP Spoofing/Poisoning, you can hardcode a trusted device's IP and MAC address so it never changes dynamically:
 
@@ -575,9 +575,9 @@ Makes Netcat act as a server, binding to a local port and waiting for incoming c
 Forces Netcat to use UDP instead of the default TCP protocol.
 
 
-*Common Examples & Use Cases*
+### Common Examples & Use Cases
 
-#### 1. Scan if a TCP port is open (Port Check)
+**1. Scan if a TCP port is open (Port Check)**
 
 To quickly verify whether an application port (like port 80 for Nginx or 5432 for PostgreSQL) is reachable on a target server:
 
@@ -588,7 +588,7 @@ nc -zv 172.31.38.144 80
 • Success Output: `` Connection to 172.31.38.144 80 port [tcp/http] succeeded! ``
 • Failure Output: `` Connection to 172.31.38.144 port 80 [tcp/http] failed: Connection refused ``
 
-#### 2. Open a temporary listening server (Catch incoming traffic)
+**2. Open a temporary listening server (Catch incoming traffic)**
 
 If you want to test if a remote server can reach your local machine on a specific port, start a listener on your terminal:
 
@@ -599,7 +599,7 @@ nc -l 8080
 > Any text sent from another machine to your IP on port 8080 will now print directly onto your screen.
 
 
-#### 3. Transfer files between two servers
+**3. Transfer files between two servers**
 
 You can stream raw file data across the network instantly using Netcat.
 
@@ -616,7 +616,7 @@ nc 172.31.38.144 9000 < backup.tar.gz
 ```
 
 
-#### 4. Grab a service banner (HTTP Check)
+**4. Grab a service banner (HTTP Check)**
 
 You can connect directly to a web server and request raw headers to see what software version it runs:
 
@@ -669,11 +669,137 @@ __Here are the essential data points you look for:__
 
 ---
 
-## iplugstatus
+## iplugstatus  (Interface Plug Status)
+
+It is a specialized link detection utility used to determine whether a physical network cable is plugged into your Ethernet port.
+
+Syntax :
+
+```bash
+ifplugstatus [INTERFACE]
+```
+
+• Check all interfaces: Run `` ifplugstatus `` by itself to scan every network card on the system.
+
+
+• Check a specific port: Specify the target port, such as `` ifplugstatus eth0 ``
+
+
+### Installation Note
+
+Because cloud servers (like your AWS EC2 instance) use virtual network cards rather than physical cables, `` ifplugstatus `` is not installed by default on most standard distributions.
+
+If you are managing physical bare-metal hardware or a Raspberry Pi, you can install it via the `` ifplugd `` daemon package:
+
+• Ubuntu/Debian: `` sudo apt install ifplugd ``
+
+• Amazon Linux/RHEL: `` sudo dnf install ifplugd ``
+
+
+### Example Output and Meaning
+
+When you execute the command, it returns one of two distinct structural phrases:
+
+
+**1. `` eth0: link beat detected ``**
+
+
+• *Meaning* : A physical Ethernet cable is plugged in, and electrical signals are passing cleanly between your server and the switch/router.
+
+
+**2. `` eth0: unplugged ``**
+
+
+• *Meaning* : The port is empty, or the cable at the other end is unplugged or loose.
 
 ---
 
-## curl vs wget
+## curl (Client URL) vs wget (World Wide Web Get)
+
+The `` curl `` and `` wget `` commands are the two primary command-line tools in Linux used to download files, transfer data, and interact with web servers or APIs over network protocols (like HTTP, HTTPS, FTP).
+
+While they seem similar, they serve different primary use cases for a **DevOps engineer**: `` wget `` is a dedicated file downloader built for reliability, while `` curl `` is a data transfer tool designed to interact with APIs and backend systems.
+
+
+### curl
+
+`` curl `` is designed to pipe data. It is the ultimate tool for debugging web servers, testing REST APIs, and injecting custom headers.
+
+
+#### Common Examples:
+
+**Fetch a web page / test an endpoint:**
+
+```bash 
+curl https://example.com
+```
+
+> This will print the raw HTML or JSON code directly onto your screen.
+
+
+**Save the output to a file ( `` -o `` or `` -O `` ):**
+
+```bash
+curl -o index.html https://example.com
+```
+
+> (Using capital `` -O `` automatically names the file based on the remote URL filename).
+
+
+**Inspect only the HTTP response headers (`` -I `` ):**
+
+
+Great for checking server health, status codes (like `` 200 OK `` or `` 404 Not Found `` ), and SSL certificates:
+
+```bash
+curl -I https://example.com
+```
+
+**Send a POST request with JSON data to an API ( `` -X `` and `` -d `` ):**
+
+
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"name": "devops"}' https://example.com
+```
+
+
+### wget
+
+`` wget `` is built to be a background downloader. It handles poor network stability gracefully, automatically retrying downloads if your connection drops.
+
+
+#### Common Examples:
+
+**Download an installation package or script**
+
+```bash
+wget https://nginx.org
+```
+
+> This silently saves the archive straight into your active folder.
+
+
+**Download and rename the file ( `` -O `` ):**
+
+```bash
+wget -O my-app.tar.gz https://example.com
+```
+
+**Resume a broken or interrupted download ( `` -c `` ):**
+
+If a 5GB download fails halfway through, this restarts exactly where it stopped instead of starting over:
+
+```bash
+wget -c https://example.com
+```
+
+**Mirror/Download an entire website recursively ( `` -m `` ):**
+
+Useful for taking local offline backups of internal documentation pages:
+
+```bash
+wget -m https://internal-project.com
+```
 
 ---
 
@@ -681,15 +807,35 @@ __Here are the essential data points you look for:__
 
 ---
 
-## nmap
-
----
-
-## wget
+## nmap (Network Mapper)
 
 ---
 
 ## watch
+
+It is used to execute a specific command repeatedly at regular intervals, allowing you to monitor changes in your terminal output in real time.
+
+Syntax :
+
+```bash
+watch [OPTIONS] COMMAND
+```
+
+Some Example using Flag and Options :
+
+```bash
+
+# -n or --interval (Set the speed)
+# • By default, watch refreshes the screen every 2.0 seconds. You can accelerate or slow this down.
+# • Refresh every 1/5th of a second (ultra-fast monitoring):
+watch -n 0.2 uptime
+
+
+# -d or --differences (Highlight Changes)
+# This is the most helpful flag. It highlights or blinks the specific characters on the screen that changed since the last refresh loop, letting you instantly spot changes in a wall of text.
+watch -d ss -t -a
+
+```
 
 ---
 
