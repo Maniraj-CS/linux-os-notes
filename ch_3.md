@@ -575,9 +575,9 @@ Makes Netcat act as a server, binding to a local port and waiting for incoming c
 Forces Netcat to use UDP instead of the default TCP protocol.
 
 
-**Common Examples & Use Cases**
+*Common Examples & Use Cases*
 
-### 1. Scan if a TCP port is open (Port Check)
+#### 1. Scan if a TCP port is open (Port Check)
 
 To quickly verify whether an application port (like port 80 for Nginx or 5432 for PostgreSQL) is reachable on a target server:
 
@@ -588,7 +588,7 @@ nc -zv 172.31.38.144 80
 • Success Output: `` Connection to 172.31.38.144 80 port [tcp/http] succeeded! ``
 • Failure Output: `` Connection to 172.31.38.144 port 80 [tcp/http] failed: Connection refused ``
 
-### 2. Open a temporary listening server (Catch incoming traffic)
+#### 2. Open a temporary listening server (Catch incoming traffic)
 
 If you want to test if a remote server can reach your local machine on a specific port, start a listener on your terminal:
 
@@ -599,7 +599,7 @@ nc -l 8080
 > Any text sent from another machine to your IP on port 8080 will now print directly onto your screen.
 
 
-### 3. Transfer files between two servers
+#### 3. Transfer files between two servers
 
 You can stream raw file data across the network instantly using Netcat.
 
@@ -616,7 +616,7 @@ nc 172.31.38.144 9000 < backup.tar.gz
 ```
 
 
-### 4. Grab a service banner (HTTP Check)
+#### 4. Grab a service banner (HTTP Check)
 
 You can connect directly to a web server and request raw headers to see what software version it runs:
 
