@@ -386,28 +386,286 @@ Syntax :
 iwconfig [INTERFACE] [PARAMETERS]
 ```
 
-> Running iwconfig with no arguments lists all wireless network interfaces on the system.
+> Running `` iwconfig `` with no arguments lists all wireless network interfaces on the system.
 
 ---
 
-## ss
+## ss  (Socket Statistics)
 
+It display detailed information about active network connections, listening ports, and routing states. It work similiar as `` netstat ``.
+
+Syntax :
+
+``` bash
+ss [options] [FILTER]
+```
 
 ---
 
 ## dig
 
+It is a flexible and comprehensive command-line tool used to query DNS (Domain Name System) servers.
+
+Syntax :
+```bash
+dig [DOMAIN_NAME] [RECORD_TYPE]
+```
+
+**Example Output and Breakdown***
+
+If you run `` dig google.com  `` in your terminal, the output looks like this:
+
+``` text
+; <<>> DiG 9.18.28 <<>> google.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 32415
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;google.com.			IN	A
+
+;; ANSWER SECTION:
+google.com.		237	IN	A	142.250.71.46
+
+;; Query time: 4 msec
+;; SERVER: 172.31.0.2#53(172.31.0.2) (UDP)
+;; WHEN: Wed Oct 07 13:51:30 UTC 2026
+;; MSG SIZE  rcvd: 55
+```
+
+__Here are the critical sections to focus on:__
+
+• `` status: NOERROR ``: Indicates the DNS query succeeded. If it says `` NXDOMAIN `` , the domain name does not exist.
+
+• `` QUESTION SECTION ``: Shows exactly what your terminal asked the server ( `` google.com. IN A `` means you requested the main IPv4 address record).
+
+• `` ANSWER SECTION `` **(The Most Important Part)** : Shows the final result. It tells you `` google.com `` points to the physical IP address `` 142.250.71.46 `` . The number `` 237 `` is the **TTL (Time to Live)** in seconds, representing how long this answer can stay cached in memory before expiring.
+
+• `` SERVER: 172.31.0.2#53 `` : The IP address of the local nameserver that resolved this question for you over port `` 53 `` .
+
+
+**Common DevOps Use Cases & Options**
+
+```bash
+# 1. Get just the clean, short answer (+short)
+# The default output is very noisy. If you are writing a script and only want the raw IP address without any metadata, append +short:
+dig google.com +short # Output: 142.250.71.46
+
+
+
+# 2. Query a specific DNS server
+# To see if an updated domain record has propagated globally, you can bypass your internal server and force your query directly through a public resolver like Cloudflare (1.1.1.1):
+dig @1.1.1.1 google.com
+
+
+
+# 3. Request specific record types
+# You can verify custom infrastructure records by appending the type keyword at the end:
+
+# • Find Mail Servers: 
+dig google.com MX
+
+# • Find Text/Verification Records (DKIM/SPF):
+dig google.com TXT
+
+#• Find Canonical Aliases (CDN routes): 
+dig ://example.com CNAME
+
+
+
+# 4. Trace the full DNS path (+trace)
+# To debug a broken domain routing configuration, use +trace. This forces dig to walk through the entire hierarchical internet lookup path, starting at the root nameservers down to the authoritative host:
+dig google.com +trace
+
+```
+
 ---
 
-## arp
+## arp  (Address Resolution Protocol) 
+
+It is used to view and manage the system's local **ARP** cache. The ARP cache is a temporary lookup table that maps **IP addresses** (Layer 3 software addresses) directly to their physical **MAC addresses** (Layer 2 hardware addresses) on your local area network (LAN).
+
+Syntax :
+
+```bash
+arp [OPTIONS]
+```
+
+
+**Example Output and Breakdown**
+
+If you type `` arp `` by itself or `` arp -e `` in your terminal, it displays a snapshot of the local network mappings:
+
+```text
+Address                  HWtype   HWaddress           Flags Mask            Iface
+172.31.0.1               ether    06:7d:ef:12:34:56   C                     eth0
+```
+
+• `` Address `` : The IPv4 address of another device or gateway on your local network.
+
+
+• `` HWtype `` : The hardware protocol being used (usually `` ether `` for standard Ethernet connections).
+
+
+• `` HWaddress `` : The unique physical MAC address belonging to that device's network card.
+
+
+• `` Flags Mask `` : The type of entry. `` C `` means a Complete entry that was learned dynamically over the network. `` M `` means a Manual/Permanent entry.
+
+
+• `` Iface `` : The local network interface card (like `` eth0 `` ) used to communicate with that device.
+
+
+**Common DevOps Use Cases & Options**
+
+
+### 1. Show all entries numerically (-n)
+
+By default, `` arp `` tries to find the computer names for those IPs, which can cause delays. To force it to display clean numerical IP addresses instantly:
+
+```bash
+arp -n
+```
+
+### 2. Delete a stale entry (-d) (Requires sudo)
+
+If a server on your local network changed its network card and has a new MAC address, its old entry in your cache can cause connection failures. You can manually remove the stale IP mapping:
+
+```bash
+sudo arp -d 172.31.0.1
+```
+
+
+### 3. Add a permanent static mapping (-s) (Requires sudo)
+
+To prevent network tampering or hacking vectors like ARP Spoofing/Poisoning, you can hardcode a trusted device's IP and MAC address so it never changes dynamically:
+
+```bash
+sudo arp -s 172.31.0.1 06:7d:ef:12:34:56
+```
+
 
 ---
 
 ## nc (netcat)
 
+DevOps engineers and system administrators rely on `` nc `` for quick tasks like scanning open ports, debugging socket connections, transferring files between servers, or setting up quick, temporary test listeners.
+
+Syntax : 
+```bash
+nc [OPTIONS] HOST PORT
+```
+
+
+**Key Flags You Need to Know**
+
+• `` -z `` (Zero-I/O / Scan Mode)
+Tells Netcat to report connection status without actually sending any data. It is the primary flag used for port scanning.
+
+• `` -v `` (Verbose)
+Provides detailed diagnostic messages on your screen about the connection state.
+
+• `` -l `` (Listen)
+Makes Netcat act as a server, binding to a local port and waiting for incoming client connections.
+
+• `` -u `` (UDP)
+Forces Netcat to use UDP instead of the default TCP protocol.
+
+
+**Common Examples & Use Cases**
+
+### 1. Scan if a TCP port is open (Port Check)
+
+To quickly verify whether an application port (like port 80 for Nginx or 5432 for PostgreSQL) is reachable on a target server:
+
+```bash
+nc -zv 172.31.38.144 80
+```
+
+• Success Output: `` Connection to 172.31.38.144 80 port [tcp/http] succeeded! ``
+• Failure Output: `` Connection to 172.31.38.144 port 80 [tcp/http] failed: Connection refused ``
+
+### 2. Open a temporary listening server (Catch incoming traffic)
+
+If you want to test if a remote server can reach your local machine on a specific port, start a listener on your terminal:
+
+```bash
+nc -l 8080
+```
+
+> Any text sent from another machine to your IP on port 8080 will now print directly onto your screen.
+
+
+### 3. Transfer files between two servers
+
+You can stream raw file data across the network instantly using Netcat.
+
+* On the receiving server (Set up the listener to save the file) :
+
+```bash
+nc -l 9000 > received_backup.tar.gz
+```
+
+* On the sending server (Push the file into the connection):
+
+```bash
+nc 172.31.38.144 9000 < backup.tar.gz
+```
+
+
+### 4. Grab a service banner (HTTP Check)
+
+You can connect directly to a web server and request raw headers to see what software version it runs:
+
+```bash
+nc 142.250.71.46 80
+```
+
+
+> Once connected, type GET / HTTP/1.0 and press Enter twice to see the server response.
+
+
 ---
 
 ## whois
+
+It is used to search public registries for the ownership, registration details, expiration dates, and contact information of a domain name or IP address.
+
+Syntax :
+
+```bash
+whois [DOMAIN_NAME_OR_IP]
+```
+
+**Example Output and Breakdown**
+
+If you run whois `` google.com `` in your terminal, it connects to a domain registry server and prints a large block of text containing registry records:
+
+```text
+Domain Name: GOOGLE.COM
+Registry Domain ID: 213851_DOMAIN_COM-VRSN
+Registrar WHOIS Server: ://markmonitor.com
+Registrar URL: http://markmonitor.com
+Updated Date: 2019-09-09T15:39:04Z
+Creation Date: 1997-09-15T04:00:00Z
+Registry Expiry Date: 2028-09-13T04:00:00Z
+Registrar: MarkMonitor, Inc.
+Name Server: ://google.com
+Name Server: ://google.com
+```
+
+__Here are the essential data points you look for:__
+
+• `` Registrar `` : The commercial company where the domain was purchased (e.g., MarkMonitor, GoDaddy, Namecheap).
+
+• `` Creation Date `` : The exact date and time when the domain name was first registered on the internet.
+
+• `` Registry Expiry Date `` : When the domain registration will lapse unless the owner pays to renew it.
+
+• `` Name Server `` : The specific authoritative DNS servers responsible for handling traffic routing requests for that domain.
 
 ---
 
